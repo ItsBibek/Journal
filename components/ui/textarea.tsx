@@ -2,10 +2,8 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
-
-const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
+// Use the React.TextareaHTMLAttributes<HTMLTextAreaElement> directly
+export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
   ({ className, ...props }, ref) => {
     return (
       <textarea
@@ -20,5 +18,3 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttribu
   }
 )
 Textarea.displayName = "Textarea"
-
-export { Textarea }

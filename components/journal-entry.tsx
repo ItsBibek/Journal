@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react'
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { CalendarIcon, Tag, X, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,7 +21,7 @@ export function JournalEntry() {
   const router = useRouter()
   const { darkMode } = useTheme()
   const [tags, setTags] = useState<string[]>([])
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<JournalEntry>({
+  const { register, handleSubmit, formState: { errors }, control, setValue } = useForm<JournalEntry>({
     defaultValues: {
       date: new Date().toISOString().split('T')[0],
       title: "",
@@ -32,14 +32,16 @@ export function JournalEntry() {
 
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
+  const watchedFields = useWatch({
+    control,
+    name: ["title", "content"],
+  });
+
   useEffect(() => {
-    const subscription = watch((value) => {
-      const isTitleFilled = value.title?.trim() !== '';
-      const isContentFilled = value.content?.trim() !== '';
-      setIsSaveDisabled(!(isTitleFilled && isContentFilled));
-    });
-    return () => subscription.unsubscribe();
-  }, [watch]);
+    const isTitleFilled = watchedFields[0]?.trim() !== '';
+    const isContentFilled = watchedFields[1]?.trim() !== '';
+    setIsSaveDisabled(!(isTitleFilled && isContentFilled));
+  }, [watchedFields]);
 
   const onSubmit = (data: JournalEntry) => {
     const newEntry = {
