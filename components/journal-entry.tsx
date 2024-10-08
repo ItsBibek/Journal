@@ -21,7 +21,7 @@ export function JournalEntry() {
   const router = useRouter()
   const { darkMode } = useTheme()
   const [tags, setTags] = useState<string[]>([])
-  const { register, handleSubmit, formState: { errors }, control, setValue } = useForm<JournalEntry>({
+  const { register, handleSubmit, control, setValue } = useForm<JournalEntry>({
     defaultValues: {
       date: new Date().toISOString().split('T')[0],
       title: "",
